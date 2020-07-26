@@ -1,0 +1,14 @@
+import './matchMedia.js'
+// Vuex Store
+import store from '@/store/store'
+
+// Store Module
+//import moduleUserManagement from '@/store/user-management/moduleUserManagement.js'
+
+describe("store Main state test", ()=>{
+    it("1st test",()=>{
+        //this.$store.state.userManagement.users
+
+        console.log("1st test")
+    })
+})

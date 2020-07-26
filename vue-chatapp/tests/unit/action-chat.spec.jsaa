@@ -1,0 +1,134 @@
+// mock
+import '@/fake-db/index.js'
+import axios from '@/axios.js'
+import './matchMedia.js'
+
+// Vuex Store
+import store from '@/store/store'
+
+// Store Module
+import moduleUserManagement from '@/store/user-management/moduleUserManagement.js'
+
+xdescribe("Store Main state test", ()=>{
+    xit("1st test",()=>{
+        //this.$store.state.userManagement.users
+        store.dispatch('updateVerticalNavMenuWidth', 'no-nav-menu')
+        console.log(store.state)
+    })
+})
+
+xdescribe("Store UserManagement test", ()=>{
+    it("fetchUsers",(done)=>{
+        if (!moduleUserManagement.isRegistered) {
+            store.registerModule('userManagement', moduleUserManagement)
+            moduleUserManagement.isRegistered = true
+        }
+        //this.$store.state.userManagement.users
+        console.log(store.state)
+        store.dispatch('userManagement/fetchUsers')
+        .then(()=> {
+            expect(store.state.userManagement.users.length).toBeGreaterThanOrEqual(50)
+            done()
+        })
+        .catch(err => { console.error(err) })
+        
+    })
+
+    it("fetchUser",(done)=>{
+        let userId = 269
+        if (!moduleUserManagement.isRegistered) {
+            store.registerModule('userManagement', moduleUserManagement)
+            moduleUserManagement.isRegistered = true
+        }
+        store.dispatch('userManagement/fetchUser', userId)
+        .then((res)=> {
+            console.log(res)
+            expect(res.data.id).toBeGreaterThanOrEqual(userId)
+            done()
+        })
+        .catch(err => { 
+            console.error(err)
+            done(err)
+        })
+        
+    })
+
+    it("deleteUser",(done)=>{
+        let userId = 269
+        if (!moduleUserManagement.isRegistered) {
+            store.registerModule('userManagement', moduleUserManagement)
+            moduleUserManagement.isRegistered = true
+        }
+        store.dispatch('userManagement/deleteUser', userId)
+        .then((res)=> {
+            console.log(res)
+            expect(res.status).toBeGreaterThanOrEqual(200)
+            done()
+        })
+        .catch(err => { 
+            console.error(err)
+            done(err)
+        })
+        
+    })
+
+    it("addUser",(done)=>{
+        if (!moduleUserManagement.isRegistered) {
+            store.registerModule('userManagement', moduleUserManagement)
+            moduleUserManagement.isRegistered = true
+        }
+        let user =     {
+            'id': 318,
+            'username': 'add318',
+            'avatar': require('@/assets/images/portrait/small/avatar-s-6.jpg'),
+            'email': 'sylvia@maharrey.com',
+            'name': 'Sylvia Maharrey',
+            'country': 'Turkmenistan',
+            'role': 'staff',
+            'status': 'deactivated',
+            'is_verified': true,
+            'department': 'sales'
+          }
+        store.dispatch('userManagement/addUser', user)
+        .then((res)=> {
+            console.log(res)
+            expect(res.status).toBeGreaterThanOrEqual(200)
+            done()
+        })
+        .catch(err => { 
+            console.error(err)
+            done(err)
+        })
+        
+    })
+
+    it("updateUser",(done)=>{
+        if (!moduleUserManagement.isRegistered) {
+            store.registerModule('userManagement', moduleUserManagement)
+            moduleUserManagement.isRegistered = true
+        }
+        let user =     {
+            'id': 317,
+            'username': 'add318',
+            'avatar': require('@/assets/images/portrait/small/avatar-s-6.jpg'),
+            'email': 'sylvia@maharrey.com',
+            'name': 'Sylvia Maharrey',
+            'country': 'Turkmenistan22222',
+            'role': 'staff',
+            'status': 'deactivated',
+            'is_verified': true,
+            'department': 'sales'
+          }
+        store.dispatch('userManagement/updateUser', user)
+        .then((res)=> {
+            console.log(res)
+            expect(res.status).toBeGreaterThanOrEqual(200)
+            done()
+        })
+        .catch(err => { 
+            console.error(err)
+            done(err)
+        })
+        
+    })
+})
